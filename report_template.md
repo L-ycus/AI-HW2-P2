@@ -1,6 +1,6 @@
 # Assignment 2, Phase 2 report
 
-Name:
+Name: Lauryn Hachiya
 
 Fill in every section below, then submit this alongside your completed
 `agent_<your-first-name>.<your-last-name>.py`.
@@ -9,9 +9,13 @@ Fill in every section below, then submit this alongside your completed
 ## 1. Adapting for "go again"
 
 A. In your own words, explain what the game tree should look like in order to correctly handle a case where the same player can move again. Show through a specific example what should happen instead of alternating MAX and MIN at each move.
+   Instead of each level alternating between MAX and MIN at each move, the next move can either be the opposite node or it can be a continuation of the current node if it's still their turn at a second decision.
+
+   For example in fanorona it usually switches between white and black's move but if white ends their turn next to more black pieces (and within the constraints of where they're allowed to move), white can continue their turn in another direction. If white chooses to end their move the game tree would resemble something like black (M) -- white (m) -- black (M), from root to leaf respectively. But if white decides to continue their turn it would look more like black (M) -- white (m) -- white (m). In this case you shouldn't rely on every odd / even layer being MAX / MIN in case someone continues their turn.
 
 B. What did you actually change in your Phase 1 `minimax_alpha_beta` to
    fix this? Describe the change you implemented.
+      I changed it so that it actually fit for the fanorona game, instead of just minmaxing specific values it now accounts for how the game is set up and returns the best next move based on the heuristic score that I'll implement later. Now that it's based on the board instead of just values, I can check whether the next state has white or black as the current player, if the next_state player and the current player match then you can continue playing otherwise you switch back.
 
 C. How did you verify the fix actually works? Describe with a concrete example, showing that it makes the *correct* choice
    at a point where continuing a capture chain and stopping it lead to
