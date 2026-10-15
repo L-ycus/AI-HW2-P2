@@ -56,7 +56,7 @@ def minimax_alpha_beta(game, state, depth, maximizing=True, alpha=float("-inf"),
     #if Terminal-Test
     if depth == 0 or state.is_terminal(game, state):
         #return Utility
-        return (heuristic(board), None ,visited)
+        return (heuristic(board, player), None ,visited)
 
     best_move = None
     #if it's MAX
@@ -107,15 +107,32 @@ def minimax_alpha_beta(game, state, depth, maximizing=True, alpha=float("-inf"),
         return (min_val, best_move, visited)
     #raise NotImplementedError("TODO: implement minimax_alpha_beta")
 
-def heuristic():
-    return 27
+#counts how many pieces you have on strong intersections - opponent on strong intersections
+def heuristic(board, player):
+    #print("DEBUGGING board", board)
+    board_eval = 0
+    for r in range(4):
+        if(r % 2 == 0): # r = 0, 2, 4
+            for c in range(4): #c = 2, 4, 6, 8
+                if(board[r][(c+1)*2] == player):
+                    board_eval += 1
+                else:
+                    board_eval -= 1
+                
+        else: # r = 1, 3
+            for c in range(4): #c = 1, 3, 5, 7
+                if(board[r][(c)*2+1] == player):
+                    board_eval+= 1
+                else:
+                    board_eval -= 1
+
+    return board_eval
 
 def choose_move(game, state, time_limit):
-    moves = game.legal_moves(state)
+    #moves = game.legal_moves(state)
+    heuristic(state[1])
     alpha = float("-inf")
     beta = float("inf")
-    if(len(moves) > 0 ):
-        move = minimax_alpha_beta(state, True, alpha, beta, True)
-    else:
-        move = minimax_alpha_beta(state, True, alpha, beta, False)
-    return move 
+    best_val, best_move, visited = minimax_alpha_beta(game, state, 10, True, alpha, beta, True)
+  
+    return best_move 
