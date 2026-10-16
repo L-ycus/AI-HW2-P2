@@ -53,8 +53,8 @@ four counts separately:
 |----------|------------|------|-------|--------|
 |  random  |   White    |  10  |  0    |    0   |
 |  random  |   Black    |  10  |  0    |    0   |
-|  greedy  |   White    |   8  |  0    |    2   |
-|  greedy  |   Black    |   6  |  0    |    4   |
+|  greedy  |   White    |   9  |  0    |    1   |
+|  greedy  |   Black    |   9  |  0    |    1   |
 
 A. Roughly how did your agent do? If it lost to `greedy` any noticeable fraction of the time, why do you think that's the case -- the search, the evaluation function, or the time budget? How would you tell which one it is?
    I ran the greedy algorithm a few times and my agent was always able to win the majority of the games. You can see if the search algorithm is the issue by increasing the depth, if the winning rate doesn't improve with greater depth that might indicate a problem since greedy doesn't account for long term moves. Examining the amount of time per game could give insight into if your time budget is an issue. Adding print functions to the SIGALRM area could alert you to how often your function runs out of time and if so, you might have to reduce the depth. Also printing out the results of different evaluation functions especially for manual games you can test good or purposefully bad moves and see what the heuristic returns.
