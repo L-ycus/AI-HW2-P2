@@ -130,9 +130,9 @@ def heuristic(board, player):
 
 def choose_move(game, state, time_limit):
     #moves = game.legal_moves(state)
-    heuristic(state[1])
+    #heuristic(state[1])
     alpha = float("-inf")
     beta = float("inf")
-    best_val, best_move, visited = minimax_alpha_beta(game, state, 10, True, alpha, beta, True)
+    best_val, best_move, visited = minimax_alpha_beta(game, state, 5, True, alpha, beta, True)
   
     return best_move 
