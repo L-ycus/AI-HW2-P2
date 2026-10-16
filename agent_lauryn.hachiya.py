@@ -2,7 +2,7 @@ import ast
 import sys
 import fanorona
 
-
+#From part 1:
 def load_tree(path):
     with open(path) as f:
         return ast.literal_eval(f.read().strip())
@@ -48,31 +48,39 @@ def minimax(node, maximizing=True):
     #raise NotImplementedError("TODO: implement minimax")
 
 
+#PART 2 
+
 def minimax_alpha_beta(game, state, depth, maximizing, alpha=float("-inf"), beta=float("inf"), root_player=None):
     """Minimax with alpha-beta pruning. Same (value, visited) contract
     as minimax() above -- but visited must NOT include anything pruned."""
+    #no default player, given through choose_move()
     if(root_player is None):
         return None
 
+    #unpack state
     board = state[0]
     player = state[1]
     chain = state[2]
 
     visited = [board]
-    #if Terminal-Test
+
+    #how far you're looking ahead / end of game
+    #if Terminal-Test(state)
     if depth == 0 or game.is_terminal(state):
-        #return Utility
+        #return Utility -- heuristic in this case
+        #goes based on root_player's / AI agent perspective
         ret =  heuristic(board, root_player)
-        return (ret, None , visited)
+        return (ret, None, visited)
 
     best_move = None
-    #if it's MAX
-
+    
+    #if it's MAX / us
     if(maximizing):
         #v = -inf
         max_val = float('-inf')
         #for each a in Actions
         for child in game.legal_moves(state):
+            #get next states
             next_state = game.apply_move(state, child)
 
             #if the next move has the same player as the current one (MAX), keep as maximizing
@@ -83,8 +91,8 @@ def minimax_alpha_beta(game, state, depth, maximizing, alpha=float("-inf"), beta
 
             #updating values
             if(temp_val > max_val):
-                max_val = temp_val
-                best_move = child
+                max_val = temp_val #takes min value
+                best_move = child  #notes best move associated with highest value
             visited.extend(child_visited)
 
             #pruning
@@ -121,15 +129,17 @@ def minimax_alpha_beta(game, state, depth, maximizing, alpha=float("-inf"), beta
 def heuristic(board, player):
     #print("DEBUGGING board", board)
     board_eval = 0
+    #iterates through board
+    #strong intersections: (0, (0, 2, 4, 6, 8)), (1 (1, 3, 5, 7), (2, (0, 2, 4, 6, 8)), (3 (1, 3, 5, 7), (4, (0, 2, 4, 6, 8)))
     for r in range(5):
         for c in range(9):
             tile = board[r][c]
-            if tile == ".":
+            if tile == ".": #empty tile, ignore
                 continue
-            if (r % 2) == (c % 2):
+            if tile == player: #if you have a tile on the board +1
                 board_eval+=1
-            if tile == player:
-                board_eval+=1
+                if (r % 2) == (c % 2): #strong intersection, extra weight, only counts if its your tile
+                    board_eval+=1
     return board_eval
     
 
@@ -137,6 +147,8 @@ def heuristic(board, player):
 def choose_move(game, state, time_limit):
     #moves = game.legal_moves(state)
     #heuristic(state[1])
+
+    #initialize for function call
     alpha = float("-inf")
     beta = float("inf")
     
