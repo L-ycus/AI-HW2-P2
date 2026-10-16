@@ -72,10 +72,10 @@ biased picture of your own agent). Since `run_many.py` doesn't swap
 colors within one run, that means four separate invocations, e.g.:
 
 ```
-python3 run_many.py --w agent_<yourname>.py --b random --games 10
-python3 run_many.py --w random --b agent_<yourname>.py --games 10
-python3 run_many.py --w agent_<yourname>.py --b greedy --games 10
-python3 run_many.py --w greedy --b agent_<yourname>.py --games 10
+python3 run_many.py --w agent_lauryn.hachiya.py --b random --games 10
+python3 run_many.py --w random --b agent_lauryn.hachiya.py --games 10
+python3 run_many.py --w agent_lauryn.hachiya.py --b greedy --games 10
+python3 run_many.py --w greedy --b agent_lauryn.hachiya.py --games 10
 ```
 
 Your agent should beat `random` easily; it should beat `greedy` most of

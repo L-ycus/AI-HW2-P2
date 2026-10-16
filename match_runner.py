@@ -95,6 +95,8 @@ def make_safe_agent(choose_move_fn, label):
                 "raised an exception:\n" + traceback.format_exc(),
             })
             move = None
+            for v in violations: 
+                print(v, " \n")
         finally:
             signal.setitimer(signal.ITIMER_REAL, 0)
             signal.signal(signal.SIGALRM, old_handler)
@@ -107,7 +109,7 @@ def make_safe_agent(choose_move_fn, label):
                 })
             move = random.choice(legal)
         return move
-
+    
     return safe_fn, violations
 
 
